@@ -6,6 +6,7 @@ import './Counter.css';
 export default function Counter() {
   const [counter, setCounter] = useState(0);
   const [lastNumber, setLastNumber] = useState(0);
+  const [ultimaAccion, setUltimaAccion] = useState('');
 
   function getRandomNumber() {
     return Math.floor(Math.random() * 5) + 1;
@@ -16,11 +17,13 @@ export default function Counter() {
   function handleAttack() {
     setCounter((prevCounter) => prevCounter + randomNum);
     setLastNumber(randomNum);
+    setUltimaAccion('suma');
   }
 
   function handleDefense() {
     setCounter((prevCounter) => prevCounter - randomNum);
     setLastNumber(-randomNum);
+    setUltimaAccion('resta');
   }
   function handleResetGame() {
     setCounter(0);
@@ -35,15 +38,23 @@ export default function Counter() {
       <div className="icons-container">
         <img
           src={ataque}
-          onClick={handleAttack}
+          onClick={ultimaAccion !== 'suma' ? handleAttack : undefined}
           alt="Attack"
           className="icon attack"
+          style={{
+            cursor: ultimaAccion === 'suma' ? 'not-allowed' : 'pointer',
+            opacity: ultimaAccion === 'suma' ? 0.5 : 1,
+          }}
         />
         <img
           src={defensa}
-          onClick={handleDefense}
+          onClick={ultimaAccion !== 'resta' ? handleDefense : undefined}
           alt="Defense"
           className="icon defense"
+          style={{
+            cursor: ultimaAccion === 'resta' ? 'not-allowed' : 'pointer',
+            opacity: ultimaAccion === 'resta' ? 0.5 : 1,
+          }}
         />
       </div>
       <button onClick={handleResetGame}>Reset Game</button>
